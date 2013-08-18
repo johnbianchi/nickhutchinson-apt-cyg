@@ -109,7 +109,7 @@ function getsetup()
     mv setup.ini setup.ini-save
     wget -N $mirror/setup.bz2
     if [[ -f setup.bz2 && $? -eq 0 ]]; then
-      bunzip2 setup.bz2
+      bunzip2 -k setup.bz2
       mv setup setup.ini
       echo Updated setup.ini
     else
