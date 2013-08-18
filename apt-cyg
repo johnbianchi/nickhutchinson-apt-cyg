@@ -60,6 +60,20 @@ function version()
 }
 
 
+function get_arch()
+{
+  local arch
+  case "$(uname -m)" in
+    i[3456]86)
+      arch=x86
+    ;;
+    x86_64)
+      arch=x86_64
+    ;;
+  esac
+  echo "$arch"
+}
+
 function findworkspace()
 {
   # default working directory and mirror
@@ -78,6 +92,7 @@ function findworkspace()
     mirror="`head -1 /etc/setup/last-mirror`"
   fi
   mirrordir="`echo "$mirror" | sed -e "s/:/%3a/g" -e "s:/:%2f:g"`"
+  mirrordir="$mirrordir/$(get_arch)"
 
   echo Working directory is $cache
   echo Mirror is $mirror
@@ -88,6 +103,7 @@ function findworkspace()
 
 function getsetup()
 {
+  local mirror="$mirror/$(get_arch)"
   if [[ $noscripts -eq 0 && $noupdate -eq 0 ]]; then
     touch setup.ini
     mv setup.ini setup.ini-save
