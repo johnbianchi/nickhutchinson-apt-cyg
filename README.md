@@ -20,7 +20,7 @@ Quick start
 -----------
 First install curl and wget through the standard cygwin setup program. Then run the following commands:
 
-    # curl -o /usr/bin/apt-cyg https://raw.github.com/cfg/apt-cyg/master/apt-cyg
+    # curl -o /usr/bin/apt-cyg https://raw.github.com/nickhutchinson/apt-cyg/master/apt-cyg
     # chmod +x /usr/bin/apt-cyg
 
 use apt-cyg, for example:
