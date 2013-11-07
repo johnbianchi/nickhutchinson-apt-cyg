@@ -10,11 +10,10 @@ apt-cyg is a command-line installer for Cygwin which cooperates with Cygwin Setu
 * "apt-cyg install <package names>" to install packages
 * "apt-cyg remove <package names>" to remove packages
 * "apt-cyg update" to update setup.ini
-* "apt-cyg show" to show installed packages
-* "apt-cyg find <pattern(s)>" to find packages matching patterns
-* "apt-cyg search <patterns>" to find packages matching patterns (alias of find)
-* "apt-cyg describe <pattern(s)>" to describe packages matching patterns
-* "apt-cyg packageof <commands or files>" to locate parent packages
+* "apt-cyg show|list" to show installed packages
+* "apt-cyg find|search <pattern(s)>" to find packages matching patterns
+* "apt-cyg describe|info <pattern(s)>" to describe packages matching patterns
+* "apt-cyg packageof|provides <commands or files>" to locate parent packages
 
 Quick start
 -----------

@@ -3,6 +3,7 @@
 # apt-cyg: install tool for cygwin similar to debian apt-get
 #
 # Copyright (C) 2005-9, Stephen Jungels
+# 
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,6 +18,10 @@
 # (http://www.fsf.org/licensing/licenses/gpl.html)
 
 # this script requires some packages
+
+# ChangeLog
+# - 2013.11.06: Added yum like args (list, info, provides ...)
+#               added --no-verbose to wget calls
 
 WGET=`which wget 2> /dev/null`
 BZIP2=`which bzip2 2> /dev/null`
@@ -34,11 +39,10 @@ function usage()
   echo "  \"apt-cyg install <package names>\" to install packages"
   echo "  \"apt-cyg remove <package names>\" to remove packages"
   echo "  \"apt-cyg update\" to update setup.ini"
-  echo "  \"apt-cyg show\" to show installed packages"
-  echo "  \"apt-cyg find <patterns>\" to find packages matching patterns"
-  echo "  \"apt-cyg search <patterns>\" to find packages matching patterns (alias of find)"
-  echo "  \"apt-cyg describe <patterns>\" to describe packages matching patterns"
-  echo "  \"apt-cyg packageof <commands or files>\" to locate parent packages"
+  echo "  \"apt-cyg show|list\" to show installed packages"
+  echo "  \"apt-cyg find|search <patterns>\" to find packages matching patterns"
+  echo "  \"apt-cyg describe|info <patterns>\" to describe packages matching patterns"
+  echo "  \"apt-cyg packageof|provides <commands or files>\" to locate parent packages"
   echo "Options:"
   echo "  --mirror, -m <url> : set mirror"
   echo "  --cache, -c <dir>  : set cache"
@@ -107,13 +111,13 @@ function getsetup()
   if [[ $noscripts -eq 0 && $noupdate -eq 0 ]]; then
     touch setup.ini
     mv setup.ini setup.ini-save
-    wget -N $mirror/setup.bz2
+    wget --no-verbose -N $mirror/setup.bz2
     if [[ -f setup.bz2 && $? -eq 0 ]]; then
       bunzip2 -k setup.bz2
       mv setup setup.ini
       echo Updated setup.ini
     else
-      wget -N $mirror/setup.ini
+      wget --no-verbose -N $mirror/setup.ini
       if [[ -f setup.ini && $? -eq 0 ]]; then
         echo Updated setup.ini
       else
@@ -200,7 +204,8 @@ function process_args () {
        shift
      ;;
 
-      update|show|search|find|describe|packageof|install|remove)
+      #update|show|search|find|describe|packageof|install|remove)
+      update|show|list|search|find|describe|info|packageof|provides|whatprovides|install|remove)
         if [[ -z $command ]]; then
           command=$1
         else
@@ -252,7 +257,7 @@ case "$command" in
   ;;
 
 
-  show)
+  show|list)
 
     echo 1>&2 The following packages are installed:
     cat /etc/setup/installed.db | awk '/[^ ]+ [^ ]+ 0/ {print $1}'
@@ -284,7 +289,7 @@ case "$command" in
   ;;
 
 
-  describe)
+  describe|info)
 
     checkpackages
     findworkspace
@@ -298,7 +303,7 @@ case "$command" in
   ;;
 
 
-  packageof)
+  packageof|provides|whatprovides)
 
     checkpackages
     for pkg in $packages; do
@@ -416,7 +421,7 @@ case "$command" in
 
       file=`basename $install`
       cd "release/$pkg"
-      wget -nc "$mirror/$install"
+      wget --no-verbose -nc "$mirror/$install"
 
       # check the md5
       digest=`cat "desc" | awk '/^install: / { print $4; exit }'`
