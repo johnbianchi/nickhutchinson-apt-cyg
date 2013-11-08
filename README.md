@@ -19,9 +19,9 @@ Quick start
 -----------
 First install curl and wget through the standard cygwin setup program. Then run the following commands:
 
-    # curl -o /usr/bin/apt-cyg https://raw.github.com/nickhutchinson/apt-cyg/master/apt-cyg
-    # chmod +x /usr/bin/apt-cyg
+    # curl -o /usr/local/sbin/apt-cyg https://raw.github.com/johnbianchi/apt-cyg/master/apt-cyg
+    # chmod +x /usr/local/sbin/apt-cyg
 
 use apt-cyg, for example:
 
-    # apt-cyg install nano
+    # apt-cyg install vim
